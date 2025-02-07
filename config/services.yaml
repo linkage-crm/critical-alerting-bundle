@@ -1,0 +1,3 @@
+services:
+  LinkageCrm\CriticalAlertingBundle\EventListener\ExceptionListener:
+    tags: [kernel.event_listener]
