@@ -1,0 +1,29 @@
+{
+  "name": "linkage-crm/critical-alerting-bundle",
+  "description": "Send critical exceptions in prod to telegram channel",
+  "type": "symfony-bundle",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "version" : "1.0.0",
+  "authors": [
+    {
+      "name": "Linkage CRM",
+      "email": "support@linkagecrm.ru"
+    }
+  ],
+  "require": {
+    "php": ">=8.2",
+    "symfony/framework-bundle": "*",
+    "symfony/http-client": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "LinkageCrm\\CriticalAlertingBundle\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "LinkageCrm\\CriticalAlertingBundle\\Tests\\": "tests/"
+  },
+  "require-dev": {
+  }
+}
