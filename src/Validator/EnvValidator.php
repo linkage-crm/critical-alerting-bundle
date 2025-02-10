@@ -6,17 +6,17 @@ use LinkageCrm\CriticalAlertingBundle\Exception\Validator\NotFoundRequiredEnvExc
 
 class EnvValidator
 {
-	/**
-	 * @throws NotFoundRequiredEnvException
-	 */
-	public static function validate(array $requireEnvs): void
-	{
-		foreach ($requireEnvs as $envName) {
-			if (!isset($_ENV[$envName])) {
-				throw new NotFoundRequiredEnvException($envName);
-			}
-		}
-	}
+    /**
+     * @throws NotFoundRequiredEnvException
+     */
+    public static function validate(array $requireEnvs): void
+    {
+        foreach ($requireEnvs as $envName) {
+            if (!isset($_ENV[$envName])) {
+                throw new NotFoundRequiredEnvException($envName);
+            }
+        }
+    }
 
     public static function isAppEnvProd(): bool
     {

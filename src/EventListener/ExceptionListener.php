@@ -2,7 +2,7 @@
 
 namespace LinkageCrm\CriticalAlertingBundle\EventListener;
 
-use LinkageCrm\CriticalAlertingBundle\Exception\Notificiable\AbstractNotifiableException;
+use LinkageCrm\CriticalAlertingBundle\Exception\Notifiable\AbstractNotifiableException;
 use LinkageCrm\CriticalAlertingBundle\Entity\TelegramNotification;
 use LinkageCrm\CriticalAlertingBundle\Notificator\TelegramNotificator;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
