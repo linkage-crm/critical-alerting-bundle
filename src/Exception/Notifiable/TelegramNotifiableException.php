@@ -1,6 +1,6 @@
 <?php
 
-namespace LinkageCrm\CriticalAlertingBundle\Exception\Notificiable;
+namespace LinkageCrm\CriticalAlertingBundle\Exception\Notifiable;
 
 use LinkageCrm\CriticalAlertingBundle\Entity\TelegramNotification;
 use LinkageCrm\CriticalAlertingBundle\Notificator\TelegramNotificator;

@@ -1,6 +1,6 @@
 <?php
 
-namespace LinkageCrm\CriticalAlertingBundle\Exception\Notificiable;
+namespace LinkageCrm\CriticalAlertingBundle\Exception\Notifiable;
 
 abstract class AbstractNotifiableException extends \Exception
 {

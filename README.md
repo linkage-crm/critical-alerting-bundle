@@ -23,17 +23,17 @@ return [
 ```
 APP_ENV=prod
 
-TELEGRAM_CRITICAL_ERRORS_BOT_TOKEN=your_bot_token
-
-TELEGRAM_CRITICAL_ERRORS_CHAT_ID=your_chat_id
+CRITICAL_ALERTING_PROJECT_NAME=<your_project_name>
+CRITICAL_ALERTING_TG_BOT_TOKEN=<your_bot_token>
+CRITICAL_ALERTING_TG_CHAT_ID=<your_chat_id>
 ```
 
 ## Примеры:
 
-1) Через наследование исключения TelegramNotificableException:
+1) Через наследование исключения TelegramNotifiableException:
 
 ```php
-use LinkageCrm\CriticalAlertingBundle\Exception\Notificiable\TelegramNotifiableException;
+use LinkageCrm\CriticalAlertingBundle\Exception\Notifiable\TelegramNotifiableException;
 
 class MyCustomException extends TelegramNotifiableException
 {
@@ -47,10 +47,10 @@ try{
 }
 ```
 
-2)  Без наследования TelegramNotificableException:
+2)  Без наследования TelegramNotifiableException:
 
 ```php
-use LinkageCrm\CriticalAlertingBundle\Exception\Notificiable\TelegramNotifiableException;
+use LinkageCrm\CriticalAlertingBundle\Exception\Notifiable\TelegramNotifiableException;
 
 try{
     // Your code which throws TelegramNotifiableException
@@ -62,7 +62,7 @@ try{
 3) Собственное исключение с другой логикой уведомления:
 
 ```php
-use LinkageCrm\CriticalAlertingBundle\Exception\Notificiable\AbstractNotifiableException;
+use LinkageCrm\CriticalAlertingBundle\Exception\Notifiable\AbstractNotifiableException;
 
 class MyCustomException extends AbstractNotifiableException
 {
@@ -92,7 +92,7 @@ foo();
 ```
 
 ## Вид сообщения с ошибкой:
-1) IP сервера с ошибкой
+1) Название сервера
 2) Текст ошибки
 3) Файл ошибки
 4) Строка ошибки
