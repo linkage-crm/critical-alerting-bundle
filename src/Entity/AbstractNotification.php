@@ -6,8 +6,7 @@ abstract class AbstractNotification
 {
     protected string $project_name;
     protected string $message;
-    protected string $file;
-    protected int    $line;
+    protected string $trace;
 
     abstract public function __toString(): string;
 
@@ -17,8 +16,7 @@ abstract class AbstractNotification
         $notification
             ->setProjectName($_ENV['CRITICAL_ALERTING_PROJECT_NAME'] ?? '')
             ->setMessage($e->getMessage())
-            ->setFile($e->getFile())
-            ->setLine($e->getLine());
+            ->setTrace($e->getTraceAsString());
 
         return $notification;
     }
@@ -45,25 +43,14 @@ abstract class AbstractNotification
         return $this;
     }
 
-    public function getFile(): string
+    public function getTrace(): string
     {
-        return $this->file;
+        return $this->trace;
     }
 
-    public function setFile(string $file): self
+    public function setTrace(string $trace): self
     {
-        $this->file = $file;
-        return $this;
-    }
-
-    public function getLine(): int
-    {
-        return $this->line;
-    }
-
-    public function setLine(int $line): self
-    {
-        $this->line = $line;
+        $this->trace = $trace;
         return $this;
     }
 }
