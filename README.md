@@ -80,21 +80,32 @@ catch (MyCustomException $e){
 }
 ```
 
-4) Уведомление при возникновении любого необработанного исключения будет отправлено автоматически
+4) Уведомление при возникновении любого необработанного исключения, если скрипт был запущен контроллером
 
 ```php
-function foo(){
-    // some logic
-    throw new Exception();
-}
+<?php
 
-foo();
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+
+class TestBundleController extends AbstractController
+{
+	/**
+	 * @throws \Exception
+	 */
+	#[Route('/test-alerting', name: 'test-alerting')]
+	public function test4():Response
+	{
+		throw new \Exception('Test alerting');
+		return $this->json(['ok']);
+	}
+}
 ```
 
 ## Вид сообщения с ошибкой:
 1) Название сервера
 2) Текст ошибки
-3) Файл ошибки
-4) Строка ошибки
+3) Стек вызова ошибки
 
 ![img.png](message_example.png)
