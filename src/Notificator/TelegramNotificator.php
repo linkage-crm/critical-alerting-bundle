@@ -2,37 +2,19 @@
 
 namespace LinkageCrm\CriticalAlertingBundle\Notificator;
 
-use LinkageCrm\CriticalAlertingBundle\Exception\Validator\NotFoundRequiredEnvException;
-use LinkageCrm\CriticalAlertingBundle\Validator\EnvValidator;
 use Symfony\Component\HttpClient\HttpClient;
-use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 class TelegramNotificator implements NotificatorInterface
 {
     private const BASE_URL = 'https://api.telegram.org/bot';
-    private const REQUIRE_ENVS = ['CRITICAL_ALERTING_PROJECT_NAME', 'CRITICAL_ALERTING_TG_BOT_TOKEN', 'CRITICAL_ALERTING_TG_CHAT_ID'];
 
     public static function sendNotification(string $notification): array
     {
-        if(!EnvValidator::isAppEnvProd()){
-            return [];
-        }
-
-        try{
-            EnvValidator::validate(self::REQUIRE_ENVS);
-
-            return self::sendRequest('sendMessage', [
-                'chat_id'    => $_ENV['CRITICAL_ALERTING_TG_CHAT_ID'],
-                'text'       => $notification,
-                'parse_mode' => 'HTML',
-            ]);
-        }
-        catch (NotFoundRequiredEnvException $e){
-            return ['code' => $e->getCode(), 'success' => false, 'message' => $e->getMessage()];
-        }
+        return self::sendRequest('sendMessage', [
+            'chat_id'    => $_ENV['CRITICAL_ALERTING_TG_CHAT_ID'],
+            'text'       => $notification,
+            'parse_mode' => 'HTML',
+        ]);
     }
 
     private static function sendRequest(string $action, array $requestData): array
@@ -52,7 +34,7 @@ class TelegramNotificator implements NotificatorInterface
 
             $content = $response->getContent(false);
             return json_decode($content, true);
-        } catch (TransportExceptionInterface | ClientExceptionInterface | RedirectionExceptionInterface | ServerExceptionInterface $e) {
+        } catch (\Throwable $e) {
             return ['code' => $e->getCode(), 'success' => false, 'message' => $e->getMessage()];
         }
     }

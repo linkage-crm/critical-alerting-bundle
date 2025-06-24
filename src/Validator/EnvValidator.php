@@ -2,23 +2,22 @@
 
 namespace LinkageCrm\CriticalAlertingBundle\Validator;
 
-use LinkageCrm\CriticalAlertingBundle\Exception\Validator\NotFoundRequiredEnvException;
-
 class EnvValidator
 {
-    /**
-     * @throws NotFoundRequiredEnvException
-     */
-    public static function validate(array $requireEnvs): void
+    private const REQUIRE_ENVS = ['CRITICAL_ALERTING_PROJECT_NAME', 'CRITICAL_ALERTING_TG_BOT_TOKEN', 'CRITICAL_ALERTING_TG_CHAT_ID'];
+
+    public function validate(): bool
     {
-        foreach ($requireEnvs as $envName) {
+        foreach (self::REQUIRE_ENVS as $envName) {
             if (!isset($_ENV[$envName])) {
-                throw new NotFoundRequiredEnvException($envName);
+                return false;
             }
         }
+
+        return self::isAppEnvProd();
     }
 
-    public static function isAppEnvProd(): bool
+    public function isAppEnvProd(): bool
     {
         return isset($_ENV['APP_ENV']) && $_ENV['APP_ENV'] == 'prod';
     }
