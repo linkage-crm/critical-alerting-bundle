@@ -2,20 +2,26 @@
 
 namespace LinkageCrm\CriticalAlertingBundle\EventListener;
 
-use LinkageCrm\CriticalAlertingBundle\Exception\Notifiable\AbstractNotifiableException;
 use LinkageCrm\CriticalAlertingBundle\Entity\TelegramNotification;
 use LinkageCrm\CriticalAlertingBundle\Notificator\TelegramNotificator;
+use LinkageCrm\CriticalAlertingBundle\Validator\EnvValidator;
+use LinkageCrm\CriticalAlertingBundle\Validator\ExceptionValidator;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 
 class ExceptionListener
 {
+    public function __construct(
+        private EnvValidator       $envValidator,
+        private ExceptionValidator $exceptionValidator,
+    ){}
+
     public function __invoke(ExceptionEvent $event): void
     {
         $exception = $event->getThrowable();
-		
-		if(self::isExceptionNotifiable($exception)) {
-			return ;
-		}
+
+        if(!$this->envValidator->validate() || !$this->exceptionValidator->validate($exception)) {
+            return ;
+        }
 		
 		$this->sendTelegramNotification($exception);
     }
@@ -24,10 +30,5 @@ class ExceptionListener
 	{
 		$message = TelegramNotification::createFromThrowable($exception);
 		TelegramNotificator::sendNotification($message);
-	}
-	
-	private static function isExceptionNotifiable(\Throwable $exception): bool
-	{
-		return $exception instanceof AbstractNotifiableException;
 	}
 }

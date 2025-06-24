@@ -1,3 +1,9 @@
 services:
+  LinkageCrm\CriticalAlertingBundle\Validator\EnvValidator: ~
+  LinkageCrm\CriticalAlertingBundle\Validator\ExceptionValidator: ~
+
   LinkageCrm\CriticalAlertingBundle\EventListener\ExceptionListener:
-    tags: [kernel.event_listener]
+    arguments:
+      $envValidator: '@LinkageCrm\CriticalAlertingBundle\Validator\EnvValidator'
+      $exceptionValidator: '@LinkageCrm\CriticalAlertingBundle\Validator\ExceptionValidator'
+    tags: [ kernel.event_listener ]
