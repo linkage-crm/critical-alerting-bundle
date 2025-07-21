@@ -2,21 +2,28 @@
 
 namespace LinkageCrm\CriticalAlertingBundle\Entity;
 
+use LinkageCrm\CriticalAlertingBundle\Context\RequestContext;
+
 abstract class AbstractNotification
 {
     protected string $project_name;
     protected string $message;
     protected string $trace;
+    protected ?string $referer = null;
 
     abstract public function __toString(): string;
 
-    public static function createFromThrowable(\Throwable $e): self
+    public static function createFromThrowable(\Throwable $e, RequestContext $requestContext = null): self
     {
         $notification = new static();
         $notification
             ->setProjectName($_ENV['CRITICAL_ALERTING_PROJECT_NAME'] ?? '')
             ->setMessage($e->getMessage())
             ->setTrace($e->getTraceAsString());
+
+        if($requestContext && $requestContext->getReferer()) {
+            $notification->setReferer($requestContext->getReferer());
+        }
 
         return $notification;
     }
@@ -51,6 +58,17 @@ abstract class AbstractNotification
     public function setTrace(string $trace): self
     {
         $this->trace = $trace;
+        return $this;
+    }
+
+    public function getReferer(): ?string
+    {
+        return $this->referer;
+    }
+
+    public function setReferer(string $referer): self
+    {
+        $this->referer = $referer;
         return $this;
     }
 }

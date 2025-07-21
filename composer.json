@@ -4,7 +4,7 @@
   "type": "symfony-bundle",
   "minimum-stability": "stable",
   "license": "MIT",
-  "version" : "3.0.0",
+  "version" : "3.1.0",
   "authors": [
     {
       "name": "Linkage CRM",

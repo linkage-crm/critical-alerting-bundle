@@ -7,7 +7,8 @@ class TelegramNotification extends AbstractNotification
 {
     public function __toString(): string
     {
-        return "Project: $this->project_name\n\n" .
+        return "Project: $this->project_name\n" .
+            "Referer: " . ($this->referer ?? '-') . "\n\n" .
             "<blockquote expandable>Message: $this->message</blockquote>\n" .
             "<blockquote expandable>Trace: \n$this->trace</blockquote>";
     }
