@@ -2,8 +2,14 @@ services:
   LinkageCrm\CriticalAlertingBundle\Validator\EnvValidator: ~
   LinkageCrm\CriticalAlertingBundle\Validator\ExceptionValidator: ~
 
+  LinkageCrm\CriticalAlertingBundle\Context\RequestContext:
+    arguments:
+      - '@request_stack'
+
   LinkageCrm\CriticalAlertingBundle\EventListener\ExceptionListener:
     arguments:
-      $envValidator: '@LinkageCrm\CriticalAlertingBundle\Validator\EnvValidator'
-      $exceptionValidator: '@LinkageCrm\CriticalAlertingBundle\Validator\ExceptionValidator'
-    tags: [ kernel.event_listener ]
+      - '@LinkageCrm\CriticalAlertingBundle\Validator\EnvValidator'
+      - '@LinkageCrm\CriticalAlertingBundle\Validator\ExceptionValidator'
+      - '@LinkageCrm\CriticalAlertingBundle\Context\RequestContext'
+    tags:
+      - { name: kernel.event_listener, event: kernel.exception }

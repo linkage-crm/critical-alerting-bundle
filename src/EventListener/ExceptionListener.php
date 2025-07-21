@@ -2,6 +2,7 @@
 
 namespace LinkageCrm\CriticalAlertingBundle\EventListener;
 
+use LinkageCrm\CriticalAlertingBundle\Context\RequestContext;
 use LinkageCrm\CriticalAlertingBundle\Entity\TelegramNotification;
 use LinkageCrm\CriticalAlertingBundle\Notificator\TelegramNotificator;
 use LinkageCrm\CriticalAlertingBundle\Validator\EnvValidator;
@@ -13,6 +14,7 @@ class ExceptionListener
     public function __construct(
         private EnvValidator       $envValidator,
         private ExceptionValidator $exceptionValidator,
+        private RequestContext     $requestContext,
     ){}
 
     public function __invoke(ExceptionEvent $event): void
@@ -22,13 +24,13 @@ class ExceptionListener
         if(!$this->envValidator->validate() || !$this->exceptionValidator->validate($exception)) {
             return ;
         }
-		
-		$this->sendTelegramNotification($exception);
+
+        $this->sendTelegramNotification($exception);
     }
-	
-	private function sendTelegramNotification(\Throwable $exception): void
-	{
-		$message = TelegramNotification::createFromThrowable($exception);
-		TelegramNotificator::sendNotification($message);
-	}
+
+    private function sendTelegramNotification(\Throwable $exception): void
+    {
+        $message = TelegramNotification::createFromThrowable($exception, $this->requestContext);
+        TelegramNotificator::sendNotification($message);
+    }
 }

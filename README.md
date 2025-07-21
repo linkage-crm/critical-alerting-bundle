@@ -105,7 +105,8 @@ class TestBundleController extends AbstractController
 
 ## Вид сообщения с ошибкой:
 1) Название сервера
+2) Referer
 2) Текст ошибки
 3) Стек вызова ошибки
 
-![img.png](message_example.png)
+![message_example.png](message-example.png)
